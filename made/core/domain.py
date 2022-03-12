@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date
 from typing import Optional
 
@@ -9,20 +9,23 @@ class OutOfStock(Exception):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass
 class OrderLine:
     id: str
     sku: str
     quantity: int
 
+    def __hash__(self) -> int:
+        return hash(self.id)
 
-@dataclass
+
 class Batch:
-    reference: str
-    sku: str
-    eta: Optional[date]
-    _purchased_quantity: int
-    _allocations: set[OrderLine] = field(default_factory=set)
+    def __init__(self, reference: str, sku: str, quantity: int, eta: Optional[date]):
+        self.reference = reference
+        self.sku = sku
+        self.eta = eta
+        self._purchased_quantity = quantity
+        self._allocations: set[OrderLine] = set()
 
     @property
     def allocated_quantity(self) -> int:
@@ -31,6 +34,14 @@ class Batch:
     @property
     def available_quantity(self) -> int:
         return self._purchased_quantity - self.allocated_quantity
+
+    def __eq__(self, other):
+        if not isinstance(other, Batch):
+            return False
+        return other.reference == self.reference
+
+    def __hash__(self):
+        return hash(self.reference)
 
     def __gt__(self, other: Batch) -> bool:
         if self.eta is None:

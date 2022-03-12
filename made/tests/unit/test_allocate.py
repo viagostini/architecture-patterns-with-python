@@ -10,12 +10,8 @@ later = tomorrow + timedelta(days=10)
 
 
 def test_prefers_current_stock_batches_to_shipment():
-    in_stock_batch = Batch(
-        "in-stock-batch", "RETRO-CLOCK", _purchased_quantity=100, eta=None
-    )
-    shipment_batch = Batch(
-        "shipment-batch", "RETRO-CLOCK", _purchased_quantity=100, eta=tomorrow
-    )
+    in_stock_batch = Batch("in-stock-batch", "RETRO-CLOCK", quantity=100, eta=None)
+    shipment_batch = Batch("shipment-batch", "RETRO-CLOCK", quantity=100, eta=tomorrow)
     line = OrderLine("oref", "RETRO-CLOCK", 10)
 
     _ = allocate(line, [shipment_batch, in_stock_batch])
@@ -25,13 +21,9 @@ def test_prefers_current_stock_batches_to_shipment():
 
 
 def test_prefers_earlier_batches():
-    earliest = Batch(
-        "speedy-batch", "MINIMALIST-SPOON", _purchased_quantity=100, eta=today
-    )
-    medium = Batch(
-        "normal-batch", "MINIMALIST-SPOON", _purchased_quantity=100, eta=tomorrow
-    )
-    latest = Batch("slow-batch", "MINIMALIST-SPOON", _purchased_quantity=100, eta=later)
+    earliest = Batch("speedy-batch", "MINIMALIST-SPOON", quantity=100, eta=today)
+    medium = Batch("normal-batch", "MINIMALIST-SPOON", quantity=100, eta=tomorrow)
+    latest = Batch("slow-batch", "MINIMALIST-SPOON", quantity=100, eta=later)
     line = OrderLine("order1", "MINIMALIST-SPOON", 10)
 
     _ = allocate(line, [medium, earliest, latest])
@@ -43,7 +35,7 @@ def test_prefers_earlier_batches():
 
 def test_returns_allocated_batch_ref():
     in_stock_batch = Batch(
-        "in-stock-batch-ref", "HIGHBROW-POSTER", _purchased_quantity=100, eta=None
+        "in-stock-batch-ref", "HIGHBROW-POSTER", quantity=100, eta=None
     )
     line = OrderLine("oref", "HIGHBROW-POSTER", 10)
 
@@ -53,7 +45,7 @@ def test_returns_allocated_batch_ref():
 
 
 def test_raises_out_of_stock_exception_if_cannot_allocate():
-    batch = Batch("batch1", "SMALL-FORK", _purchased_quantity=10, eta=today)
+    batch = Batch("batch1", "SMALL-FORK", quantity=10, eta=today)
     _ = allocate(OrderLine("order1", "SMALL-FORK", 10), [batch])
 
     with pytest.raises(OutOfStock):

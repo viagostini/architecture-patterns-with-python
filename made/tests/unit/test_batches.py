@@ -14,7 +14,7 @@ def make_batch_and_line(
         Batch(
             reference="batch-001",
             sku=sku,
-            _purchased_quantity=batch_qty,
+            quantity=batch_qty,
             eta=date.today(),
         ),
         OrderLine(id="order-123", sku=sku, quantity=line_qty),
@@ -58,9 +58,7 @@ def test_cannot_allocate_if_available_smaller_than_required(required, available)
 def test_cannot_allocate_if_skus_do_not_match(sku1, sku2):
     assume(sku1 != sku2)
 
-    batch = Batch(
-        reference="batch-001", sku=sku1, _purchased_quantity=10, eta=date.today()
-    )
+    batch = Batch(reference="batch-001", sku=sku1, quantity=10, eta=date.today())
     line = OrderLine(id="order-001", sku=sku2, quantity=5)
 
     assert not batch.can_allocate(line)

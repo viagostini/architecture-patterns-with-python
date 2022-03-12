@@ -1,5 +1,7 @@
 all-unit-tests:
     @poetry run pytest -v --cov=made --cov-report term-missing:skip-covered made/tests/unit
+all-integration-tests:
+    @poetry run pytest -v --cov=made --cov-report term-missing:skip-covered made/tests/integration
 
 lint:
     @poetry run flake8 made
