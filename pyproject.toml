@@ -21,6 +21,9 @@ flake8 = "^6.0.0"
 hypothesis = "^6.75.3"
 pytest-cov = "^4.0.0"
 
+[tool.black]
+line_length = 100
+
 [tool.isort]
 known_first_party = "made"
 

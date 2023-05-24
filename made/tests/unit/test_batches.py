@@ -7,9 +7,7 @@ from hypothesis import assume, given
 from made.core.domain import Batch, OrderLine
 
 
-def make_batch_and_line(
-    sku: str, batch_qty: int, line_qty: int
-) -> Tuple[Batch, OrderLine]:
+def make_batch_and_line(sku: str, batch_qty: int, line_qty: int) -> Tuple[Batch, OrderLine]:
     return (
         Batch(
             reference="batch-001",
@@ -22,12 +20,8 @@ def make_batch_and_line(
 
 
 @given(st.integers(), st.integers())
-def test_allocation_to_batch_reduces_available_quantity(
-    available_quantity, order_quantity
-):
-    batch, order_line = make_batch_and_line(
-        "SMALL-TABLE", available_quantity, order_quantity
-    )
+def test_allocation_to_batch_reduces_available_quantity(available_quantity, order_quantity):
+    batch, order_line = make_batch_and_line("SMALL-TABLE", available_quantity, order_quantity)
 
     assume(batch.can_allocate(order_line))
 

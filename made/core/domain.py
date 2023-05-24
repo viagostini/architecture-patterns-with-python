@@ -61,10 +61,7 @@ class Batch:
             self._allocations.remove(order_line)
 
     def can_allocate(self, order_line: OrderLine) -> bool:
-        return (
-            self.sku == order_line.sku
-            and self.available_quantity >= order_line.quantity
-        )
+        return self.sku == order_line.sku and self.available_quantity >= order_line.quantity
 
 
 def allocate(line: OrderLine, batches: list[Batch]) -> str:

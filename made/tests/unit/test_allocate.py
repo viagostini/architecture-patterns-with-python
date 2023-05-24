@@ -34,9 +34,7 @@ def test_prefers_earlier_batches():
 
 
 def test_returns_allocated_batch_ref():
-    in_stock_batch = Batch(
-        "in-stock-batch-ref", "HIGHBROW-POSTER", quantity=100, eta=None
-    )
+    in_stock_batch = Batch("in-stock-batch-ref", "HIGHBROW-POSTER", quantity=100, eta=None)
     line = OrderLine("oref", "HIGHBROW-POSTER", 10)
 
     allocation = allocate(line, [in_stock_batch])
