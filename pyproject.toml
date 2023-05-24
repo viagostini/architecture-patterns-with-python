@@ -6,7 +6,7 @@ authors = ["Vinicius Agostini <vinicius.agostini19@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-sqlalchemy = "^2.0.15"
+sqlalchemy = "^1.4.48"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.1"
