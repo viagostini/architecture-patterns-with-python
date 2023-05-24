@@ -13,7 +13,7 @@ class OutOfStock(Exception):
 class OrderLine:
     id: str
     sku: str
-    quantity: int
+    qty: int
 
     def __hash__(self) -> int:
         return hash(self.id)
@@ -29,7 +29,7 @@ class Batch:
 
     @property
     def allocated_quantity(self) -> int:
-        return sum(line.quantity for line in self._allocations)
+        return sum(line.qty for line in self._allocations)
 
     @property
     def available_quantity(self) -> int:
@@ -61,7 +61,7 @@ class Batch:
             self._allocations.remove(order_line)
 
     def can_allocate(self, order_line: OrderLine) -> bool:
-        return self.sku == order_line.sku and self.available_quantity >= order_line.quantity
+        return self.sku == order_line.sku and self.available_quantity >= order_line.qty
 
 
 def allocate(line: OrderLine, batches: list[Batch]) -> str:

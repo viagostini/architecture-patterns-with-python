@@ -1,11 +1,11 @@
-import sqlalchemy
+from sqlalchemy.orm import Session
 
 from made.core.domain import Batch
 from made.core.repository import AbstractRepository
 
 
 class SqlAlchemyRepository(AbstractRepository):
-    def __init__(self, session: sqlalchemy.orm.Session):
+    def __init__(self, session: Session):
         self.session = session
 
     def add(self, batch: Batch):
